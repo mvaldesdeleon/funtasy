@@ -97,5 +97,8 @@
             "prerelease": "git-branch-is master && [ -z \"$(git status --porcelain)\" ]",
             "posttag": "git add . && git push --follow-tags"
         }
+    },
+    "dependencies": {
+        "fantasy-land": "^3.5.0"
     }
 }

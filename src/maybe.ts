@@ -1,3 +1,5 @@
+import fl = require('fantasy-land');
+
 interface INothing {
     _: 'Nothing';
 }
@@ -88,7 +90,7 @@ export class MaybeObj<A> {
         return new MaybeObj(Just(value));
     }
 
-    public static 'fantasy-land/of'<A>(value: A) {
+    public static [fl.of]<A>(value: A) {
         return MaybeObj.Just(value);
     }
 
@@ -106,7 +108,7 @@ export class MaybeObj<A> {
         return new MaybeObj(map(fn)(this.maybe));
     }
 
-    public 'fantasy-land/map'<B>(fn: IFn<A, B>) {
+    public [fl.map]<B>(fn: IFn<A, B>) {
         return this.map(fn);
     }
 
@@ -114,7 +116,7 @@ export class MaybeObj<A> {
         return new MaybeObj(ap(maybeFn)(this.maybe));
     }
 
-    public 'fantasy-land/ap'<B>(maybeFn: Maybe<IFn<A, B>>) {
+    public [fl.ap]<B>(maybeFn: Maybe<IFn<A, B>>) {
         return this.ap(maybeFn);
     }
 
@@ -122,7 +124,7 @@ export class MaybeObj<A> {
         return new MaybeObj(andThen(fn)(this.maybe));
     }
 
-    public 'fantasy-land/chain'<B>(fn: IFn<A, Maybe<B>>) {
+    public [fl.chain]<B>(fn: IFn<A, Maybe<B>>) {
         return this.andThen(fn);
     }
 }
