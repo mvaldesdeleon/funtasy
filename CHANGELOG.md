@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.2.0"></a>
+
+# [2.2.0](https://github.com/mvaldesdeleon/funtasy/compare/2.1.0...2.2.0) (2018-08-09)
+
+### Features
+
+-   **project:** export either ([8dea6b8](https://github.com/mvaldesdeleon/funtasy/commit/8dea6b8))
+
 <a name="2.1.0"></a>
 
 # [2.1.0](https://github.com/mvaldesdeleon/funtasy/compare/2.0.0...2.1.0) (2018-08-09)
