@@ -77,7 +77,7 @@ export const map5 = <A, B, C, D, E, F>(fn: IFn5<A, B, C, D, E, F>) => (maybeA: M
 
 export const andThen = <A, B>(fn: IFn<A, Maybe<B>>) => (maybeA: Maybe<A>): Maybe<B> =>
     match({
-        Nothing: () => Nothing as Maybe<B>,
+        Nothing: () => Nothing,
         Just: (value: A) => fn(value)
     })(maybeA);
 
