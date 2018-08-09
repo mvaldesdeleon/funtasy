@@ -49,7 +49,7 @@ export const map = <A, B>(fn: IFn<A, B>) => (maybeA: Maybe<A>): Maybe<B> =>
 
 export const ap = <A, B>(maybeFn: Maybe<IFn<A, B>>) => (maybeA: Maybe<A>): Maybe<B> =>
     match({
-        Nothing: () => Nothing as Maybe<B>,
+        Nothing: () => Nothing,
         Just: (value: A) =>
             match({
                 Nothing: () => Nothing as Maybe<B>,
@@ -81,6 +81,14 @@ export const andThen = <A, B>(fn: IFn<A, Maybe<B>>) => (maybeA: Maybe<A>): Maybe
         Just: (value: A) => fn(value)
     })(maybeA);
 
+export const alt = <A>(maybeR: Maybe<A>) => (maybeL: Maybe<A>): Maybe<A> =>
+    match({
+        Nothing: () => maybeL,
+        Just: (value: A) => Just(value)
+    })(maybeR);
+
+export const zero = <A>(): Maybe<A> => Nothing;
+
 export class MaybeObj<A> {
     public static Nothing<A>(): MaybeObj<A> {
         return new MaybeObj(Nothing);
@@ -92,6 +100,10 @@ export class MaybeObj<A> {
 
     public static [fl.of]<A>(value: A) {
         return MaybeObj.Just(value);
+    }
+
+    public static [fl.zero]<A>(): MaybeObj<A> {
+        return new MaybeObj(zero());
     }
 
     protected constructor(private maybe: Maybe<A>) {}
@@ -126,5 +138,13 @@ export class MaybeObj<A> {
 
     public [fl.chain]<B>(fn: IFn<A, Maybe<B>>) {
         return this.andThen(fn);
+    }
+
+    public alt(maybeA: Maybe<A>) {
+        return new MaybeObj(alt(this.maybe)(maybeA));
+    }
+
+    public [fl.alt](maybeA: Maybe<A>) {
+        return this.alt(maybeA);
     }
 }
