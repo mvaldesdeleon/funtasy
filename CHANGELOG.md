@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.0"></a>
+
+# [1.1.0](https://github.com/mvaldesdeleon/funtasy/compare/1.0.0...1.1.0) (2018-08-09)
+
+### Features
+
+-   **maybe:** adds cata to object api ([c3715c4](https://github.com/mvaldesdeleon/funtasy/commit/c3715c4))
+
 <a name="1.0.0"></a>
 
 # 1.0.0 (2018-08-09)
