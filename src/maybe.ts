@@ -13,12 +13,12 @@ export const Nothing: INothing = { _: 'Nothing' };
 
 export const Just = <A>(value: A): IJust<A> => ({ _: 'Just', value });
 
-interface IMaybeCata<A, B> {
+interface IPattern<A, B> {
     Nothing: () => B;
     Just: (value: A) => B;
 }
 
-export const cata = <A, B>(definition: IMaybeCata<A, B>) => (maybeA: Maybe<A>): B => {
+export const match = <A, B>(definition: IPattern<A, B>) => (maybeA: Maybe<A>): B => {
     switch (maybeA._) {
         case 'Nothing':
             return definition.Nothing();
@@ -28,7 +28,7 @@ export const cata = <A, B>(definition: IMaybeCata<A, B>) => (maybeA: Maybe<A>): 
 };
 
 export const withDefault = <A>(defaultValue: A) => (maybeA: Maybe<A>): A =>
-    cata({
+    match({
         Nothing: () => defaultValue,
         Just: (value: A) => value
     })(maybeA);
@@ -40,16 +40,16 @@ type IFn4<A, B, C, D, E> = (a: A) => (b: B) => (c: C) => (d: D) => E;
 type IFn5<A, B, C, D, E, F> = (a: A) => (b: B) => (c: C) => (d: D) => (e: E) => F;
 
 export const map = <A, B>(fn: IFn<A, B>) => (maybeA: Maybe<A>): Maybe<B> =>
-    cata({
+    match({
         Nothing: () => Nothing as Maybe<B>,
         Just: (value: A) => Just(fn(value))
     })(maybeA);
 
 export const ap = <A, B>(maybeFn: Maybe<IFn<A, B>>) => (maybeA: Maybe<A>): Maybe<B> =>
-    cata({
+    match({
         Nothing: () => Nothing as Maybe<B>,
         Just: (value: A) =>
-            cata({
+            match({
                 Nothing: () => Nothing as Maybe<B>,
                 Just: (fn: IFn<A, B>) => Just(fn(value))
             })(maybeFn)
@@ -74,7 +74,7 @@ export const map5 = <A, B, C, D, E, F>(fn: IFn5<A, B, C, D, E, F>) => (maybeA: M
     ap(ap(ap(ap(map(fn)(maybeA))(maybeB))(maybeC))(maybeD))(maybeE);
 
 export const andThen = <A, B>(fn: IFn<A, Maybe<B>>) => (maybeA: Maybe<A>): Maybe<B> =>
-    cata({
+    match({
         Nothing: () => Nothing as Maybe<B>,
         Just: (value: A) => fn(value)
     })(maybeA);
@@ -94,8 +94,8 @@ export class MaybeObj<A> {
 
     protected constructor(private maybe: Maybe<A>) {}
 
-    public cata<B>(definition: IMaybeCata<A, B>) {
-        return cata(definition)(this.maybe);
+    public match<B>(definition: IPattern<A, B>) {
+        return match(definition)(this.maybe);
     }
 
     public withDefault(value: A) {
