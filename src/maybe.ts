@@ -18,19 +18,18 @@ interface IMaybeCata<A, B> {
     Just: (value: A) => B;
 }
 
-// tslint:disable-next-line no-shadowed-variable
-export const cata = <A, B>(cata: IMaybeCata<A, B>) => (maybeA: Maybe<A>): B => {
+export const cata = <A, B>(definition: IMaybeCata<A, B>) => (maybeA: Maybe<A>): B => {
     switch (maybeA._) {
         case 'Nothing':
-            return cata.Nothing();
+            return definition.Nothing();
         case 'Just':
-            return cata.Just(maybeA.value);
+            return definition.Just(maybeA.value);
     }
 };
 
-export const withDefault = <A>(def: A) => (maybeA: Maybe<A>): A =>
+export const withDefault = <A>(defaultValue: A) => (maybeA: Maybe<A>): A =>
     cata({
-        Nothing: () => def,
+        Nothing: () => defaultValue,
         Just: (value: A) => value
     })(maybeA);
 
@@ -94,6 +93,10 @@ export class MaybeObj<A> {
     }
 
     protected constructor(private maybe: Maybe<A>) {}
+
+    public cata<B>(definition: IMaybeCata<A, B>) {
+        return cata(definition)(this.maybe);
+    }
 
     public withDefault(value: A) {
         return withDefault(value)(this.maybe);
