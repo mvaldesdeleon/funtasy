@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.0"></a>
+
+# [2.0.0](https://github.com/mvaldesdeleon/funtasy/compare/1.1.0...2.0.0) (2018-08-09)
+
+### Features
+
+-   **maybe:** implement alt and zero ([5d711ad](https://github.com/mvaldesdeleon/funtasy/commit/5d711ad))
+-   **maybe:** more intuitive pattern matching api ([12c03ba](https://github.com/mvaldesdeleon/funtasy/commit/12c03ba))
+-   **project:** add fantasy-land dependency ([e55aadd](https://github.com/mvaldesdeleon/funtasy/commit/e55aadd))
+
+### BREAKING CHANGES
+
+-   **maybe:** rename cata into match
+
 <a name="1.1.0"></a>
 
 # [1.1.0](https://github.com/mvaldesdeleon/funtasy/compare/1.0.0...1.1.0) (2018-08-09)
