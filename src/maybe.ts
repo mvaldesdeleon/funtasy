@@ -124,27 +124,27 @@ export class MaybeObj<A> {
         return this.map(fn);
     }
 
-    public ap<B>(maybeFn: Maybe<IFn<A, B>>) {
-        return new MaybeObj(ap(maybeFn)(this.maybe));
+    public ap<B>(maybeFn: MaybeObj<IFn<A, B>>) {
+        return new MaybeObj(ap(maybeFn.maybe)(this.maybe));
     }
 
-    public [fl.ap]<B>(maybeFn: Maybe<IFn<A, B>>) {
+    public [fl.ap]<B>(maybeFn: MaybeObj<IFn<A, B>>) {
         return this.ap(maybeFn);
     }
 
-    public andThen<B>(fn: IFn<A, Maybe<B>>) {
-        return new MaybeObj(andThen(fn)(this.maybe));
+    public andThen<B>(fn: IFn<A, MaybeObj<B>>) {
+        return new MaybeObj(andThen((a: A) => fn(a).maybe)(this.maybe));
     }
 
-    public [fl.chain]<B>(fn: IFn<A, Maybe<B>>) {
+    public [fl.chain]<B>(fn: IFn<A, MaybeObj<B>>) {
         return this.andThen(fn);
     }
 
-    public alt(maybeA: Maybe<A>) {
-        return new MaybeObj(alt(this.maybe)(maybeA));
+    public alt(maybeA: MaybeObj<A>) {
+        return new MaybeObj(alt(this.maybe)(maybeA.maybe));
     }
 
-    public [fl.alt](maybeA: Maybe<A>) {
+    public [fl.alt](maybeA: MaybeObj<A>) {
         return this.alt(maybeA);
     }
 }

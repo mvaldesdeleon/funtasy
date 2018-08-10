@@ -161,27 +161,27 @@ export class EitherObj<A, B> {
         return this.map(fn);
     }
 
-    public ap<C>(eitherAFn: Either<A, IFn<B, C>>) {
-        return new EitherObj(ap(eitherAFn)(this.either));
+    public ap<C>(eitherAFn: EitherObj<A, IFn<B, C>>) {
+        return new EitherObj(ap(eitherAFn.either)(this.either));
     }
 
-    public [fl.ap]<C>(eitherAFn: Either<A, IFn<B, C>>) {
-        return this.ap(eitherAFn);
+    public [fl.ap]<C>(eitherAFn: EitherObj<A, IFn<B, C>>) {
+        return this.ap<C>(eitherAFn);
     }
 
-    public andThen<C>(fn: IFn<B, Either<A, C>>) {
-        return new EitherObj(andThen(fn)(this.either));
+    public andThen<C>(fn: IFn<B, EitherObj<A, C>>) {
+        return new EitherObj(andThen((b: B) => fn(b).either)(this.either));
     }
 
-    public [fl.chain]<C>(fn: IFn<B, Either<A, C>>) {
-        return this.andThen(fn);
+    public [fl.chain]<C>(fn: IFn<B, EitherObj<A, C>>) {
+        return this.andThen<C>(fn);
     }
 
-    public alt(eitherAB: Either<A, B>) {
-        return new EitherObj(alt(this.either)(eitherAB));
+    public alt(eitherAB: EitherObj<A, B>) {
+        return new EitherObj(alt(this.either)(eitherAB.either));
     }
 
-    public [fl.alt](eitherAB: Either<A, B>) {
+    public [fl.alt](eitherAB: EitherObj<A, B>) {
         return this.alt(eitherAB);
     }
 }
